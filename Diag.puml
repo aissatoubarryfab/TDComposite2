@@ -1,0 +1,59 @@
+@startuml classdiagram
+package TD2.fileSystem {
+
+enum ComposantType {
+        Fichier, Repertoire
+    }
+class FSFactory{
+        +INSTANCE:FSFactory=new FSFactory() <<final>>
+        this():FSFactory
+        +abstractgetInstance():FSFactory
+        +createComposant(type:ComposantType,name:String,owner:Owner):ComposantFileSystem
+    } 
+interface ComposantFileSystem {
+
+        +getName():string
+        +getContent():string
+        +getOwner():Owner
+        +getSize():int
+        +appendContent(in content:string):void
+        +setOwner(in Owner:Owner):voidj
+
+    }
+
+    class Owner{
+        -name: string
+        +this(in n:string)
+        +toString():string
+    }
+
+   abstract class composantImplement{
+        -name:string
+        +this(in name:stiring,in O:Owner)
+        +getOwner():Owner
+        +getName():string
+    }
+
+    composantImplement ...|> ComposantFileSystem
+    FSFactory ...|> ComposantFileSystem
+    FSFactory ...|> ComposantType
+    composantImplement --->"-owner" Owner
+
+    class Fichier extends composantImplement{
+    content:StringBuilder
+    +this(in name:stiring,O:Owner):Fichier
+    +getSize():integer
+    +getContent():stringappendContent(content:string):void
+    +iscomposite():bool
+    +toString():string
+
+
+
+    }
+
+   class Repertoire extends composantImplement{
+     
+    }
+     Repertoire *-> "-elems *" ComposantFileSystem
+}
+@enduml
